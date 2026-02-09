@@ -42,7 +42,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 # 2. Join it with your folder name to get the FULL path
 vector_FOLDER = os.path.join(script_dir, "faiss_index_bgem3")
 
-print(f"📂 Looking for vector DB at: {vector_FOLDER}") # Debug print
+print(f"Looking for vector DB at: {vector_FOLDER}") # Debug print
 
 vectorstore = None
 
@@ -53,13 +53,13 @@ if os.path.exists(vector_FOLDER):
             embeddings, 
             allow_dangerous_deserialization=True
         )
-        print("✅ Vector Database Loaded Successfully")
+        print("Vector Database Loaded now we are takin")
     except Exception as e:
-        print(f"❌ Error while loading vector DB: {e}")
+        print(f"Error while loading vector DB: {e}")
 else:
     # This will now tell you EXACTLY where it looked and failed
-    print(f"❌ Folder NOT found at: {vector_FOLDER}")
-    print(f"   Current Working Directory is: {os.getcwd()}")
+    print(f"Folder NOT found: {vector_FOLDER}")
+    print(f"Currentdirectory: {os.getcwd()}")
 
 # search function to find the best matching document from the vector database
 def findbestmatch(query):
@@ -193,7 +193,7 @@ def ask_gemini():
     user_query = data.get('query', '')
 
     if not user_query: #if enter is pressed without giving any prompt
-        return jsonify({"answer": "Please ask a question."})
+        return jsonify({"answer": "can you give a question please"})
 
     # retriving the info our searching model gave us
     contexttext = ""
@@ -247,7 +247,7 @@ INSTRUCTION: Analyze the <context> to answer the USER_QUERY. Follow the System R
     #first lets try Google Gemini
     if API_KEY:
         try:
-            print("🚀 Attempting Primary (Gemini)...")
+            print("attempting primary (gemini)")
             client = genai.Client(api_key=API_KEY)
             response = client.models.generate_content(
                 model="gemini-2.5-flash", # Using the latest available model
@@ -256,12 +256,12 @@ INSTRUCTION: Analyze the <context> to answer the USER_QUERY. Follow the System R
             )
             return jsonify({"answer": response.text})
         except Exception as e:
-            print(f"Gemini Failed: {e}") #would probably fail if we hit the gemini rate limit 
+            print(f"gemini Failed miserably haha: {e}") #would probably fail if we hit the gemini rate limit 
 
     # 2. Try OpenRouter (Backup)(FREE)
     if OR_CLIENT:
         try:
-            print("🔄 Attempting Backup (OpenRouter)...")
+            print("attempting backup (openRouter)")
             response = OR_CLIENT.chat.completions.create(
                 model="meta-llama/llama-3.3-70b-instruct:free", # Fast & Free
                 messages=[
@@ -273,12 +273,12 @@ INSTRUCTION: Analyze the <context> to answer the USER_QUERY. Follow the System R
             )
             return jsonify({"answer": f"{response.choices[0].message.content}\n\n"})
         except Exception as e:
-            print(f"OpenRouter Failed: {e}") #would fail if the models is down
+            print(f"OpenRouter Failed oh no this aint good: {e}") #would fail if the models is down
 
     # 3. Try Groq (Last Resort)
     if GROQ_CLIENT:
         try:
-            print("🔄 Attempting Tertiary (Groq)...")
+            print("attempting tertiary (groq)")
             response = GROQ_CLIENT.chat.completions.create(
                 model="llama-3.3-70b-versatile",
                 messages=[
@@ -290,10 +290,11 @@ INSTRUCTION: Analyze the <context> to answer the USER_QUERY. Follow the System R
             )
             return jsonify({"answer": f"{response.choices[0].message.content}\n\n"})
         except Exception as e:
-            print(f"Groq Failed: {e}")
+            print(f"Groq Failed shit: {e}")
 
-    return jsonify({"answer": "No available models to respond"}), 503
+    return jsonify({"answer": "no available models to respond"}), 503
 
 if __name__ == '__main__':
 
     app.run(host="0.0.0.0", port=7860)
+

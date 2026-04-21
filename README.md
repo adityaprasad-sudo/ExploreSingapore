@@ -35,7 +35,7 @@ For reliability in demos and heavy traffic, the system establishes a robust chai
 ## Secondary: Llama 3.3 70B via OpenRouter (Robust fallback)
 ## Tertiary: Llama 3.3 70B via Groq (Emergency fallback)
 
-### **2. "Lquid-Glass" Interactive UI**
+### **2. "Liquid-Glass" Interactive UI**
 The frontend interface is a custom-built **Framer Code Component** (React + Framer Motion).
 * **Glassmorphism:** Real-time backdrop blur (`backdrop-filter: blur(25px)`).
 * **Spring Physics:** Smooth sideways expansion on hover.
